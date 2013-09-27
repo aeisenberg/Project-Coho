@@ -1,3 +1,5 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
 // Code in this file keeps track of positioning, story stacks,
 // and other screen rendering things
 
@@ -15,11 +17,11 @@ renderStory: function(storyPanel, storyData) {
         var carouselItems = [];
         var max_width = 300, max_height = 240;
 
-        for (i=0; i < storyData.related_media.length; i++) {
+        for (var i=0; i < storyData.related_media.length; i++) {
             var gotSized = false;
 
-            for (j=0; storyData.related_media[i].thumbnails && j < storyData.related_media[i].thumbnails.length; j++) {
-                if (storyData.related_media[i].thumbnails[j] && storyData.related_media[i].thumbnails[j].width == max_width) {
+            for (var j=0; storyData.related_media[i].thumbnails && j < storyData.related_media[i].thumbnails.length; j++) {
+                if (storyData.related_media[i].thumbnails[j] && storyData.related_media[i].thumbnails[j].width === max_width) {
                     console.log("adding "+storyData.related_media[i].thumbnails[j].uri+" to slideshow");
                     carouselItems.push({tpl: Coho.Templates.slideshowSlide, data: {uri: storyData.related_media[i].thumbnails[j].uri, caption: storyData.related_media[i].caption, width: storyData.related_media[i].thumbnails[j].width, height: storyData.related_media[i].thumbnails[j].height}});
                     gotSized = true;
@@ -44,7 +46,7 @@ renderStory: function(storyPanel, storyData) {
 
         // if only one item, show the single image
         // otherwise, set up a slideshow
-        if (carouselItems.length == 1) {
+        if (carouselItems.length === 1) {
             storyData.top_image_html = Coho.Templates.storyTopImageSingle.apply(carouselItems[0].data);
         } else if (carouselItems.length > 1) {
             var m_height = Math.round(200 / storyData.related_media[0].width * storyData.related_media[0].height);
@@ -99,7 +101,7 @@ pushPanelStackByUUID: function(uuid)
     Coho.Story.getStory(uuid, function(storyData) {
         Coho.View.renderStory(selectedStoryPanel, storyData);
         selectedStoryPanel.doLayout();
-        if (storyData.uuid == Coho.currentTab.stack[0].uuid) {
+        if (storyData.uuid === Coho.currentTab.stack[0].uuid) {
             Coho.currentTab.stack[0].storyData = storyData;
         }
     });
@@ -168,7 +170,7 @@ popPanelStack: function()
     Coho.currentTab.panel.getLayout().prev({type:"slide",direction:"right"}, false);
 
     // if we're back at the start, kill the toolbar buttons
-    if (Coho.currentTab.panel.getActiveItem() == Coho.currentTab.panel.getComponent(0) && Coho.currentTab.titleBar) {
+    if (Coho.currentTab.panel.getActiveItem() === Coho.currentTab.panel.getComponent(0) && Coho.currentTab.titleBar) {
         Coho.currentTab.hideBackButton();
         Coho.currentTab.hideContextButton();
         Coho.View.showTabBar();
@@ -198,7 +200,7 @@ hideTabBar: function()
 
     Coho.tabBar = Ext.getCmp("tabBar");
     mainPanel.removeDocked(Coho.tabBar, false);
-},
+}
 
 }; // end Coho.View
 

@@ -1,3 +1,5 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
 /**
  * The saved stories tab.
  *
@@ -15,7 +17,7 @@ Coho.tabs.savedStoriesTab = new Coho.StoryListObject({
     titleBar: {
         xtype: "toolbar",
         dock: "top",
-        id: "savedTitleBar",
+        id: "savedTitleBar"
         //title: "TheTyee.ca"
     },
 

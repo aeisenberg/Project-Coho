@@ -1,3 +1,6 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
+
 // the "add to home screen" overlay
 
 // the iPhone/iPod version
@@ -17,7 +20,7 @@ if ((Ext.is.iPhone || Ext.is.iPod) && !Ext.is.Standalone) {
             centered: false,
             width: 290,
             height: 102,
-            html: '<p style="color: white;text-align:center;">Install the Tyee web app on your device. Tap the arrow icon below and then "Add to Home Screen"<br>&#x25bc;</p>',
+            html: '<p style="color: white;text-align:center;">Install the Tyee web app on your device. Tap the arrow icon below and then "Add to Home Screen"<br>&#x25bc;</p>'
         });
     }
 
@@ -33,7 +36,7 @@ else if (Ext.is.iPad && !Ext.is.Standalone) {
             centered: false,
             width: 320,
             height: 102,
-            html: '<div style="color: white; float: left;">&#x25b2;&nbsp;</div><div style="color: white; float: right;width: 270px;">Install the Tyee web app on your iPad. Tap the arrow icon above and then "Add to Home Screen"</div>',
+            html: '<div style="color: white; float: left;">&#x25b2;&nbsp;</div><div style="color: white; float: right;width: 270px;">Install the Tyee web app on your iPad. Tap the arrow icon above and then "Add to Home Screen"</div>'
         });
     }
 

@@ -1,3 +1,4 @@
+/*global Coho Ext */
 // templates
 
 Coho.Templates = {
@@ -159,6 +160,6 @@ morePanel: new Ext.Template(
     '<p>To see The Tyee team, go <a href="http://www.youtube.com/watch?v=32UGD0fV45g" target="_blank">here</a>.</p>',
     '</div>',
     '</div>'
-),
+)
 
 };

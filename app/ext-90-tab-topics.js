@@ -1,3 +1,6 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
+
 // topics is just a modified StoryListObject.
 Coho.tabs.topicsTab = new Coho.StoryListObject({
     store: new Ext.data.Store({
@@ -9,7 +12,7 @@ Coho.tabs.topicsTab = new Coho.StoryListObject({
     titleBar: {
         xtype: "toolbar",
         dock: "top",
-        id: "topicsTitleBar",
+        id: "topicsTitleBar"
         //title: "TheTyee.ca"
     },
 

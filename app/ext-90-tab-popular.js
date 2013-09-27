@@ -1,3 +1,5 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
 /**
  * The popular stories tab.
  *
@@ -23,7 +25,7 @@ Coho.tabs.popularStoriesTab = new Coho.StoryListObject({
     titleBar: {
         xtype: "toolbar",
         dock: "top",
-        id: "popularTitleBar",
+        id: "popularTitleBar"
         //title: "TheTyee.ca"
     },
 

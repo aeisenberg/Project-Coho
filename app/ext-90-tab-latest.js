@@ -1,3 +1,5 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
 /**
  * The latest stories tab.
  *
@@ -15,7 +17,7 @@ Coho.tabs.latestStoriesTab = new Coho.StoryListObject({
     titleBar: {
         xtype: "toolbar",
         dock: "top",
-        id: "latestTitleBar",
+        id: "latestTitleBar"
         //title: "TheTyee.ca"
     },
 

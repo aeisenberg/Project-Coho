@@ -1,3 +1,5 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
 // Real procedural code to boot the application lives here.
 
 /**

@@ -1,3 +1,5 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
 /* models */
 
 // a single story from ES
@@ -31,7 +33,7 @@ Ext.regModel('story', {
         {name:"html_override"},
         // these two are fictional and are created on the fly
         {name:"publish_date_short", convert: function(v,r) {if (!r.get('publish_date')) return ""; return Date.parseDate(r.get('publish_date'),'c').format(Coho.config.shortDateFormat); } },
-        {name:"publish_date_long", convert: function(v,r) {if (!r.get('publish_date')) return ""; return Date.parseDate(r.get('publish_date'),'c').format(Coho.config.longDateFormat); } },
+        {name:"publish_date_long", convert: function(v,r) {if (!r.get('publish_date')) return ""; return Date.parseDate(r.get('publish_date'),'c').format(Coho.config.longDateFormat); } }
     ]
 });
 

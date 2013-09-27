@@ -1,0 +1,16 @@
+{
+    "exec": {
+        "afterSave": {
+            "**/*.js": "make"
+        }
+    },
+
+    "jslint": {
+        "options": {
+            "browser": true
+        },
+        "global": [
+            "Coho", "Ext", "console", "localStorage", "sessionStorage", "window"
+        ]
+    }
+}

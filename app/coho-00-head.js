@@ -1,3 +1,5 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
 // The main project Coho super-object
 
 var Coho = {
@@ -18,7 +20,7 @@ config: {
     topicListCacheTime: 60,
 
     // time (in minutes) before the cached latest story list is expired
-    latestListCacheTime: 15,
+    latestListCacheTime: 15
 },
 
 // quasi-globals
@@ -28,4 +30,3 @@ dyingPanel: null,
 tabs: {}
 
 };
-

@@ -1,3 +1,6 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
+
 // start of the universe
 Ext.setup({
     tabletStartupScreen: 'img/tablet_startup.png',

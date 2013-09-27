@@ -1,3 +1,5 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
 /**
  * A generic instantiable object representing a story list as the root
  * panel in a card stack. Story details and other things can be pushed/popped
@@ -14,38 +16,45 @@ Coho.StoryListObject = function(config)
     this.storyRootLabel = config.storyRootLabel;
 
     // support for custom listeners (e.g. swipe)
-    if (!config.listeners) config.listeners = {};
+    if (!config.listeners) {
+		config.listeners = {};
+    }
     // one that likely won't be overridden is the basic tap to view story
-    if (!config.listeners.itemtap) config.listeners.itemtap = function(list, index, item, e) {
-        var rec = list.getStore().getAt(index);
-        var uuid = rec.data.uuid;
+    if (!config.listeners.itemtap) {
+		config.listeners.itemtap = function(list, index, item, e) {
+	        var rec = list.getStore().getAt(index);
+	        var uuid = rec.data.uuid;
 
-        // short-circuit for dummy HTML list items
-        if (uuid == 'Help' || rec.data.html_override) return false;
+	        // short-circuit for dummy HTML list items
+	        if (uuid === 'Help' || rec.data.html_override) {
+	            return false;
+	        }
 
-        console.log('itemtap on #'+index+' story '+uuid);
+	        console.log('itemtap on #' + index + ' story ' + uuid);
 
-        // delete button? (saved tab only)
-        if (e.getTarget('div.delete-button')) {
-            Coho.Story.removeSaved(uuid);
-            return;
-        }
+	        // delete button? (saved tab only)
+	        if (e.getTarget('div.delete-button')) {
+	            Coho.Story.removeSaved(uuid);
+	            return;
+	        }
 
-        Ext.select("div.delete-button", list.el.dom).each(function(e,c,i){e.setStyle({display:'none'});});
+	        Ext.select("div.delete-button", list.el.dom).each(function(e,c,i){e.setStyle({display:'none'});});
 
-        // let Coho know where we are
-        Coho.currentTab = me;
+	        // let Coho know where we are
+	        Coho.currentTab = me;
 
-        // push the selected story onto the stack
-        Coho.View.pushPanelStackItemtap(list, index, item, e);
+	        // push the selected story onto the stack
+	        Coho.View.pushPanelStackItemtap(list, index, item, e);
 
-        if (config.saveToSessionOnRender)
-            Coho.Story.saveStoryToSession(list.getStore().getAt(index).data);
-
-        // set up the toolbar buttons
-        me.showContextButton();
-    };
-
+	        if (config.saveToSessionOnRender) {
+	            Coho.Story.saveStoryToSession(list.getStore().getAt(index).data);
+			}
+			
+	        // set up the toolbar buttons
+	        me.showContextButton();
+	    };
+	}
+	
     this.list = new Ext.List({
         itemTpl: Coho.Templates.storyList,
         itemSelector: "div.article",
@@ -57,7 +66,10 @@ Coho.StoryListObject = function(config)
     });
 
     // set up our toolbar buttons
-    if (!config.titleBar.items) config.titleBar.items = [];
+    if (!config.titleBar.items) {
+        config.titleBar.items = [];
+    }
+    
     config.titleBar.items.push(
         { text: "Back", id: config.titleBar.id+"BackButton", ui: "back", handler: Coho.View.popPanelStack, hidden: true },
         { xtype: "spacer"},
@@ -114,6 +126,6 @@ Coho.StoryListObject = function(config)
         me.titleBar.getComponent(me.titleBar.id+"BackButton").setText(text);
     };
 
-}
+};
 
 

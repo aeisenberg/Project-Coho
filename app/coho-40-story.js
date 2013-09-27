@@ -1,3 +1,5 @@
+/*global Coho:true Ext console */
+/*jslint browser:true */
 // the Coho.Story object
 // namespace for story-related functions (fetching, storing, etc.)
 
@@ -24,12 +26,15 @@ getStory: function(uuid, callback)
     var c;
 
     // is it the currently displayed story?
-    if (Coho.currentTab.stack[0] && Coho.currentTab.stack[0].type=="story" && Coho.currentTab.stack[0].uuid==uuid && Coho.currentTab.stack[0].storyData) {
+    if (Coho.currentTab.stack[0] && Coho.currentTab.stack[0].type==="story" && Coho.currentTab.stack[0].uuid===uuid && Coho.currentTab.stack[0].storyData) {
         console.log("story "+uuid+" retrieved from story stack");
         c = Coho.currentTab.stack[0].storyData;
 
-        if (callback) return callback(c);
-        else          return c;
+        if (callback) {
+            return callback(c);
+        } else {
+            return c;
+        }
     }
 
     // session storage?
@@ -37,8 +42,11 @@ getStory: function(uuid, callback)
     if (c) {
         console.log("story "+uuid+" retrieved from session");
 
-        if (callback) return callback(c);
-        else          return c;
+        if (callback) {
+            return callback(c);
+        } else {
+            return c;
+        }
     }
 
     // local storage?
@@ -46,8 +54,11 @@ getStory: function(uuid, callback)
     if (c) {
         console.log("story "+uuid+" retrieved from local storage");
 
-        if (callback) return callback(c);
-        else          return c;
+        if (callback) {
+            return callback(c);
+        } else {
+            return c;
+        }
     }
 
     if (!callback) {
@@ -56,13 +67,14 @@ getStory: function(uuid, callback)
     }
 
     console.log("story "+uuid+" retrieved from remote");
-    var store = Coho.Story.getStoreFromRemote(uuid, {
+    Coho.Story.getStoreFromRemote(uuid, {
         listeners: { "load": function(store, records, success) {
             if (success) {
-                if (store && store.getAt(0) && store.getAt(0).data)
+                if (store && store.getAt(0) && store.getAt(0).data) {
                     return callback(store.getAt(0).data);
-                else
+                } else {
                     return callback({});
+                }
             } else {
                 return callback({});
             }
@@ -82,19 +94,26 @@ getStory: function(uuid, callback)
  */
 getStoreFromRemote: function(uuid, config)
 {
-    if (!config) config = {};
+    if (!config) {
+        config = {};
+    }
 
     // intercept the client-defined onload handler (if it exists) because
     // we need to inject our own "save story to session" call.
     var bubble;
-    if (config.listeners && config.listeners.load && typeof config.listeners.load == "function")
+    if (config.listeners && config.listeners.load && typeof config.listeners.load === "function") {
         bubble = config.listeners.load;
-    if (!config.listeners)
+    }
+    if (!config.listeners) {
         config.listeners = {};
+    }
     config.listeners.load = function(store, records, success) {
-        if (store && store.getAt(0) && store.getAt(0).data)
+        if (store && store.getAt(0) && store.getAt(0).data) {
             Coho.Story.saveStoryToSession(store.getAt(0).data);
-        if (bubble) bubble(store, records, success);
+        }
+        if (bubble) {
+            bubble(store, records, success); 
+        }
     };
 
     config.model = "story";
@@ -120,7 +139,9 @@ getStoreFromRemote: function(uuid, config)
 getStoryFromSession: function(uuid)
 {
     var aString = sessionStorage.getItem(uuid);
-    if (!aString) return false;
+    if (!aString) {
+        return false;
+    }
 
     return JSON.parse(aString);
 },
@@ -133,8 +154,9 @@ getStoryFromSession: function(uuid)
 getStoryFromStorage: function(uuid)
 {
     var aString = localStorage.getItem(uuid);
-    if (!aString) return false;
-
+    if (!aString) {
+        return false;
+    }
     return JSON.parse(aString);
 },
 
@@ -144,11 +166,12 @@ getStoryFromStorage: function(uuid)
  */
 getSaved: function()
 {
-    saved = localStorage.getItem('savedStories');
-    if (saved) 
+    var saved = localStorage.getItem('savedStories');
+    if (saved) {
         return JSON.parse(saved);
-    else
+    } else {
         return [];
+    }
 },
 
 /**
@@ -158,14 +181,17 @@ getSaved: function()
  */
 isSaved: function(uuid)
 {
-    savedStories = localStorage.getItem('savedStories');
-    if (!savedStories) return false;
+    var savedStories = localStorage.getItem('savedStories');
+    if (!savedStories) {
+		return false;
+    }
 
     // taking advantage of JSON here
-    if (savedStories.indexOf(uuid) >= 0)
+    if (savedStories.indexOf(uuid) >= 0) {
         return true;
-    else
+    } else {
         return false;
+    }
 },
 
 
@@ -183,9 +209,11 @@ getSavedFull: function()
     }
 
     var data = [];
-    for (i = 0; i < savedStories.length; i++) {
-        one = Coho.Story.getStoryFromStorage(savedStories[i]);
-        if (one) data.push(one);
+    for (var i = 0; i < savedStories.length; i++) {
+        var one = Coho.Story.getStoryFromStorage(savedStories[i]);
+        if (one) {
+			data.push(one);
+        }
     }
 
     return data;
@@ -207,8 +235,9 @@ getSavedFullUI: function()
  */
 addSaved: function(uuid)
 {
-    if (!uuid || Coho.Story.isSaved(uuid))
+    if (!uuid || Coho.Story.isSaved(uuid)) {
         return false;
+    }
 
     var savedStories = [];
     var aString = localStorage.getItem('savedStories');
@@ -219,10 +248,10 @@ addSaved: function(uuid)
 
     // since the story is rendered and cached, this should grab it from
     // session/local storage
-    storyData = Coho.Story.getStory(uuid);
+    var storyData = Coho.Story.getStory(uuid);
 
     // try to add the story first in case we're out of room
-    stat = Coho.Story.saveStoryToStorage(storyData);
+    var stat = Coho.Story.saveStoryToStorage(storyData);
 
     // TODO: check stat
     savedStories.push(uuid);
@@ -239,25 +268,28 @@ addSaved: function(uuid)
  */
 removeSaved: function(uuid)
 {
-    if (!uuid || !Coho.Story.isSaved(uuid))
+    if (!uuid || !Coho.Story.isSaved(uuid)) {
         return false;
+    }
 
-    savedStories = localStorage.getItem('savedStories');
-    if (!savedStories) return false;
+    var savedStories = localStorage.getItem('savedStories');
+    if (!savedStories) {
+		return false;
+	}
 
     console.log("removing story "+uuid+" from saved stories");
 
-    stat = Coho.Story.removeStoryFromStorage(uuid);
+    var stat = Coho.Story.removeStoryFromStorage(uuid);
 
     // taking advantage of JSON here for speed
     var index = savedStories.indexOf(uuid);
     if (index > 2) {
         // uuid found and it is not the first one in the list
         savedStories = savedStories.replace(',"'+uuid+'"', "");
-    } else if (index == 2 && savedStories.length < 45) {
+    } else if (index === 2 && savedStories.length < 45) {
         // uuid found and it is the only one in the list
         savedStories = "[]";
-    } else if (index == 2) {
+    } else if (index === 2) {
         // uuid found and it is the first of many in the list
         savedStories = savedStories.replace('"'+uuid+'",', "");
     }
@@ -318,10 +350,11 @@ getStoryListStoreForLatest: function()
     var stimestamp = localStorage.getItem("timestamp-latest");
 
     // offline override
-    if (!window.navigator.onLine)
+    if (!window.navigator.onLine) {
         stimestamp = +new Date();
+    }
 
-    if (sstored && sstored!='undefined' && stimestamp > (+new Date() - (Coho.config.latestListCacheTime*60*1000))) {
+    if (sstored && sstored !== 'undefined' && stimestamp > (+new Date() - (Coho.config.latestListCacheTime*60*1000))) {
         console.log("latest stories for cached from session ("+Math.round((+new Date() - +stimestamp)/1000/60)+" mins old of "+Math.round(Coho.config.latestListCacheTime)+" mins allowed)");
         return new Ext.data.Store({
             model: "story",
@@ -349,8 +382,10 @@ getStoryListStoreForLatest: function()
             },
             autoLoad: true,
             listeners: { load: function(st, records, success) {
-                if (!success || !st || !st.getCount()) return;
-
+                if (!success || !st || !st.getCount()) {
+                    return;
+                }
+				
                 var tostorage = [];
                 st.each(function(rec) { tostorage.push(rec.data); });
 
@@ -372,7 +407,7 @@ getStoryListStoreForTopic: function(topickey)
 {
     var sstored = sessionStorage.getItem("list-"+topickey);
     var stimestamp = sessionStorage.getItem("timestamp-"+topickey);
-    if (sstored && sstored!='undefined' && stimestamp > (+new Date() - (Coho.config.topicListCacheTime*60*1000))) {
+    if (sstored && sstored!=='undefined' && stimestamp > (+new Date() - (Coho.config.topicListCacheTime*60*1000))) {
         console.log("stories for topic "+topickey+" cached from session ("+Math.round((+new Date() - +stimestamp)/1000/60)+" mins old of "+Math.round(Coho.config.topicListCacheTime)+" mins allowed)");
         return new Ext.data.Store({
             model: "story",
@@ -394,7 +429,9 @@ getStoryListStoreForTopic: function(topickey)
                 }
             },
             listeners: { load: function(st, records, success) {
-                if (!success || !st || !st.getCount()) return;
+                if (!success || !st || !st.getCount()) {
+                    return;
+                }
 
                 var tostorage = [];
                 st.each(function(rec) { tostorage.push(rec.data); });
@@ -419,7 +456,7 @@ genericStoryPanel: {
         type: "vbox"
     },
     scroll: "vertical"
-},
+}
 
 
 };

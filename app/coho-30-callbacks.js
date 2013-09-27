@@ -1,3 +1,5 @@
+/*global Coho:true Ext console escape */
+/*jslint browser:true */
 // the Coho.Callbacks object
 // namespace for common callbacks
 
@@ -14,8 +16,8 @@ Coho.Callbacks = {
 storyListPanelWillChange: function(panel, newCard, oldCard, newIndex, animated)
 {
     console.log("about to switch to tab "+newIndex);
-    if (Coho.currentTab == Coho.tabs.searchTab) {
-        if (newIndex == 0) {
+    if (Coho.currentTab === Coho.tabs.searchTab) {
+        if (newIndex === 0) {
             Coho.currentTab.titleBar.getComponent("searchfield").show();
             Coho.currentTab.titleBar.hideTitle();
         } else {
@@ -38,7 +40,7 @@ storyListPanelWillChange: function(panel, newCard, oldCard, newIndex, animated)
 storyListPanelDidChange: function(panel, newCard, oldCard, newIndex, animated)
 {
     console.log("switched to tab "+newIndex);
-    if (Coho.dyingPanel && Coho.dyingPanel == oldCard) {
+    if (Coho.dyingPanel && Coho.dyingPanel === oldCard) {
         console.log("previous panel "+oldCard.id+" was KILLED");
         Coho.currentTab.panel.remove(oldCard);
         Coho.dyingPanel = null;
@@ -64,8 +66,9 @@ topTabSwitch: function(newCard, oldCard, newIndex, animated)
  */
 storyContextPressed: function(b, e)
 {
-    if (!Coho.currentTab.stack[0] || !Coho.currentTab.stack[0].uuid || Coho.currentTab.stack[0].type != "story")
+    if (!Coho.currentTab.stack[0] || !Coho.currentTab.stack[0].uuid || Coho.currentTab.stack[0].type !== "story") {
         return;
+	}
 
     var uuid = Coho.currentTab.stack[0].uuid;
 
@@ -76,14 +79,15 @@ storyContextPressed: function(b, e)
       { text: "Cancel", scope: this, handler: function() { this.as.hide(); } }
     ];
 
-    if (Coho.Story.isSaved(uuid))
+    if (Coho.Story.isSaved(uuid)) {
         items.unshift({ text: "Remove from saved stories", scope: this, handler: function() { Coho.Story.removeSaved(uuid); this.as.hide(); } });
-    else
+    } else {
         items.unshift({ text: "Save story", scope: this, handler: function() { Coho.Story.addSaved(uuid); this.as.hide(); } });
-
+	}
+	
     this.as = new Ext.ActionSheet({"items":items});
     this.as.show();
-},
+}
 
 };
 
